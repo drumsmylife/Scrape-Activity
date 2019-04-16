@@ -37,45 +37,49 @@ app.set("view engine", "handlebars");
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI);
 
-// A GET route for scraping the echoJS website
+//  BORROWED FROM IN CLASS EXERCISES
+// A GET route for scraping the planetrock website
 app.get("/scrape", function(req, res) {
     // First, we grab the body of the html with axios
     axios.get("https://www.planetrock.com/news/rock-news/").then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
   
-      // Now, we grab every h2 within an article tag, and do the following:
+      // Now, we grab every gm-sec-title within an article tag, and do the following:
       $("a.gm-sec-title").each(function(i, element) {
+        // Save an empty result object
+        var result = [];
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this)
+        .children("a")
+        .text();
+      result.link = $(this)
+        .children("a")
+        .attr("href");
+
+        var article = $(element).text();
+        console.log(article);
+      });
+
+      $("p.gm-sec-description").each(function(i, element) {
         // Save an empty result object
         var result = [];
 
         var article = $(element).text();
         console.log(article);
-  
-        // Add the text and href of every link, and save them as properties of the result object
-        // result.title = $(this)
-        //   .children("a")
-        //   .text();
-        // result.link = $(this)
-        //   .children("a")
-        //   .attr("href");
-  
-        // // Create a new Article using the `result` object built from scraping
-        // db.Article.create(result)
-        //   .then(function(dbArticle) {
-        //     // View the added result in the console
-        //     console.log(dbArticle);
-        //   })
-        //   .catch(function(err) {
-        //     // If an error occurred, log it
-        //     console.log(err);
-        //   });
       });
   
       // Send a message to the client
       res.send("Scrape Complete");
     });
   });
+  
+  
+  
+  
+  
+  
+  
   
   // Route for getting all Articles from the db
   app.get("/articles", function(req, res) {
@@ -132,3 +136,18 @@ app.get("/scrape", function(req, res) {
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
   });
+
+
+    
+      
+  
+        // // Create a new Article using the `result` object built from scraping
+        // db.Article.create(result)
+        //   .then(function(dbArticle) {
+        //     // View the added result in the console
+        //     console.log(dbArticle);
+        //   })
+        //   .catch(function(err) {
+        //     // If an error occurred, log it
+        //     console.log(err);
+        //   });
