@@ -39,36 +39,12 @@ mongoose.connect(MONGODB_URI);
 
 //  BORROWED FROM IN CLASS EXERCISES
 // A GET route for scraping the planetrock website
-app.get("/scrape", function(req, res) {
-    // First, we grab the body of the html with axios
-    axios.get("https://www.planetrock.com/news/rock-news/").then(function(response) {
-      // Then, we load that into cheerio and save it to $ for a shorthand selector
-      var $ = cheerio.load(response.data);
-  
-      // Now, we grab every gm-sec-title within an article tag, and do the following:
-      $("a.gm-sec-title").each(function(i, element) {
-        // Save an empty result object
-        var result = [];
+app.get("/", function(req, res) {
 
-        var article = $(element).text();
-        console.log(article);
-      });
-
-      $("p.gm-sec-description").each(function(i, element) {
-        // Save an empty result object
-        var result = [];
-
-        var article = $(element).text();
-        console.log(article);
-      });
-  
       // Send a message to the client
-      res.send("Scrape Complete");
-    });
+      res.send("go to /scrape");
+
   });
-  
-  
-  
   
   
   
