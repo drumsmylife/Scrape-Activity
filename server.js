@@ -49,13 +49,6 @@ app.get("/scrape", function(req, res) {
       $("a.gm-sec-title").each(function(i, element) {
         // Save an empty result object
         var result = [];
-        // Add the text and href of every link, and save them as properties of the result object
-        result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
 
         var article = $(element).text();
         console.log(article);
