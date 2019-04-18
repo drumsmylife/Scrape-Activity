@@ -39,7 +39,7 @@ mongoose.connect(MONGODB_URI);
 
 //  BORROWED FROM IN CLASS EXERCISES
 // A GET route for scraping the planetrock website
-app.get("/", function(req, res) {
+app.get("/scrape", function(req, res) {
 
       // Send a message to the client
       res.send("go to /scrape");
