@@ -49,25 +49,34 @@ app.get("/scrape", function(req, res) {
       $("a.gm-sec-title").each(function(i, element) {
         // Save an empty result object
         var result = [];
-
         var article = $(element).text();
         console.log(article);
       });
-app.get("/", function(req, res) {
+    });
+    res.send("scraping...");
+});
 
+app.get("/", function(req, res) {
+    // First, we grab the body of the html with axios
+    axios.get("https://www.planetrock.com/news/rock-news/").then(function(response) {
+      // Then, we load that into cheerio and save it to $ for a shorthand selector
+      var $ = cheerio.load(response.data);
+
+      // Now, we grab every gm-sec-title within an article tag, and do the following:
       $("p.gm-sec-description").each(function(i, element) {
         // Save an empty result object
         var result = [];
-
         var article = $(element).text();
         console.log(article);
       });
-     
-      res.send("go to /scrape");
-    })
-
     });
+    res.send("scraping...");
 });
+
+
+
+
+  
 
   
   
@@ -75,5 +84,4 @@ app.get("/", function(req, res) {
   // Start the server
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
-})
-
+});
